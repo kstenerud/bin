@@ -78,7 +78,7 @@ function forEachFile {
 	shift
 
 	pushd "$dir" >>/dev/null
-	find -s . -type f -print0 | while read -d $'\0' file
+	find . -type f -print0 | while read -d $'\0' file
 	do
 		path=$(stripPath "$file")
 		$function_name "$path" "$@"
@@ -102,7 +102,7 @@ function forEachFileWithExtension {
 	shift
 
 	pushd "$dir" >>/dev/null
-	find -s . -type f -name "*.$extension" -print0 | while read -d $'\0' file
+	find . -type f -name "*.$extension" -print0 | while read -d $'\0' file
 	do
 		path=$(stripPath "$file")
 		$function_name "$path" "$@"
