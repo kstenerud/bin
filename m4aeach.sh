@@ -37,8 +37,8 @@ function convert_m4a {
 
 	if [ ! -f "$dst_path" ]; then
 		mkdir -p "$dst_dir"
-		echo avconv -i "$src_path" -acodec aac -strict experimental "$dst_path"
-		avconv -i "$src_path" -acodec aac -strict experimental "$dst_path" >>/dev/null
+		echo avconv -i "$src_path" -c:a libfdk_aac -vbr 3 "$dst_path"
+		avconv -i "$src_path" -c:a libfdk_aac -vbr 3 "$dst_path" >>/dev/null
 	fi
 }
 
