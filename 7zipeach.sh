@@ -8,38 +8,19 @@
 
 # -- Find util.sh ------------------------------------------------------------
 set -e -u
-SCRIPTNAME=$0
+SCRIPTNAME="$0"
 if [ ! -e "$SCRIPTNAME" ]; then
-  case $SCRIPTNAME in
+  case "$SCRIPTNAME" in
     (*/*) exit 1;;
-    (*) SCRIPTNAME=$(command -v -- "$SCRIPTNAME") || exit;;
+    (*) SCRIPTNAME="$(command -v -- "$SCRIPTNAME")" || exit;;
   esac
 fi
-SCRIPTPATH=$(cd -P -- "$(dirname -- "$SCRIPTNAME")" && pwd -P) || exit
+SCRIPTPATH="$(cd -P -- "$(dirname -- "$SCRIPTNAME")" && pwd -P)" || exit
 source "$SCRIPTPATH/util.sh"
 # ----------------------------------------------------------------------------
 
-SRCDIR=$(stripPath "$1")
-DSTDIR=$(getAbsolutePath "$2")
-
-function file_7zip {
-	rel_path="$1"
-	dst_dir="$2"
-
-	rel_dir=$(dirname "$rel_path")
-	strip_dir=$(stripPath "$rel_dir")
-	file=$(basename "$rel_path")
-	basefile=$(removeExtension "$file")
-
-	src_path="$PWD/$rel_path"
-	dst_dir="$dst_dir/$strip_dir"
-	dst_path="$dst_dir/$basefile.7z"
-
-	if [ ! -f "$dst_path" ]; then
-		mkdir -p "$dst_dir"
-		echo 7z a -bd "$dst_path" "$src_path"
-		7z a -bd "$dst_path" "$src_path" >>/dev/null
-	fi
+function convert {
+	echoAndRun 7z a -bd "$1" "$2" >>/dev/null
 }
 
-forEachFile "$SRCDIR" file_7zip "$DSTDIR"
+convertFiles "$1" "$2" 7z convert
