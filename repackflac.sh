@@ -29,7 +29,7 @@ function containsTag {
 
 function printValidTags {
 	filename="$1"
-	valid_tags=("artist" "title" "date" "genre")
+	valid_tags=("artist" "title" "date" "genre" "bpm")
 	metaflac --export-tags-to=- "$filename" | while read line
 	do
 		if containsTag "${line,,}" "${valid_tags[@]}"
