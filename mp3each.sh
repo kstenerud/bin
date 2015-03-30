@@ -20,7 +20,7 @@ source "$SCRIPTPATH/util.sh"
 # ----------------------------------------------------------------------------
 
 function convert {
-	echoAndRun sox "$1" -C 4.01 "$2" >>/dev/null
+	echoAndRun avconv -i "$1" -vn -c:a libmp3lame -nostats -loglevel error "$2"
 }
 
 convertFilesWithExtension "$1" "$2" flac mp3 convert
