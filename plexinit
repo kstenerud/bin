@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -eux
+
+docker rm plex
+
+docker run \
+-d \
+--name plex \
+--network=host \
+-e TZ="Europe/Berlin" \
+-v /home/virtual/plex/config:/config \
+-v /tmp/plex:/transcode \
+-v /ro/Media:/data \
+plexinc/pms-docker
+
